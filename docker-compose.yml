@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17
+    container_name: maison-nord-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: maison
+      POSTGRES_PASSWORD: dev_password_123
+      POSTGRES_DB: maison_nord
+    ports:
+      - "5434:5432"
+    volumes:
+      - maison_nord_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U maison -d maison_nord"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  maison_nord_data:

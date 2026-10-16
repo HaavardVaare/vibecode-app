@@ -1,0 +1,105 @@
+/*
+ * Design tokens. Everything here becomes a Tailwind utility
+ * (e.g. --color-ink → bg-ink / text-ink / border-ink).
+ *
+ * The default Tailwind palette and radius scale are cleared on purpose:
+ * the system is monochrome and square-edged, so off-system values
+ * should fail loudly instead of slipping in.
+ */
+
+@theme {
+  /* ---- Color ------------------------------------------------------- */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-paper: #ffffff; /* page background */
+  --color-surface: #f5f4f2; /* product image backdrop, subtle fills */
+  --color-surface-strong: #ebe9e5; /* hover fill, skeletons */
+  --color-ink: #111111; /* primary text, primary buttons */
+  --color-ink-soft: #3a3a3a; /* primary button hover */
+  --color-muted: #6e6e6e; /* secondary text, prices, meta */
+  --color-subtle: #9a9a9a; /* placeholders, disabled text */
+  --color-line: #e3e1dd; /* hairline dividers, input borders */
+  --color-line-strong: #111111; /* focused / selected outlines */
+  --color-accent: #2f3b2f; /* our own sparing accent: badges, highlights */
+  --color-sale: #a1262b;
+  --color-success: #2e6b3f;
+  --color-overlay: rgb(0 0 0 / 0.4); /* scrims behind drawers/modals */
+
+  /* ---- Radius: square everywhere ------------------------------------ */
+  --radius-*: initial;
+
+  /* ---- Type scale ---------------------------------------------------
+   * Small, quiet UI text; large, light display type. Uppercase labels
+   * always carry generous tracking.
+   */
+  --text-micro: 0.6875rem; /* 11px – eyebrows, nav, button labels */
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.12em;
+
+  --text-caption: 0.75rem; /* 12px – meta, product price, footnotes */
+  --text-caption--line-height: 1.5;
+  --text-caption--letter-spacing: 0.02em;
+
+  --text-body: 0.875rem; /* 14px – default UI and body copy */
+  --text-body--line-height: 1.6;
+
+  --text-lead: 1rem; /* 16px – longer reading, intro paragraphs */
+  --text-lead--line-height: 1.65;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.3;
+
+  --text-h2: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.005em;
+
+  --text-h1: clamp(2rem, 1.4rem + 2.4vw, 3.5rem);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.01em;
+
+  --text-display: clamp(2.75rem, 1.6rem + 5vw, 6rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.015em;
+
+  --tracking-label: 0.12em;
+  --tracking-wide: 0.2em;
+
+  /* ---- Layout -------------------------------------------------------- */
+  --container-prose: 42rem; /* 672px – reading width */
+  --container-content: 90rem; /* 1440px – checkout, account, PDP info */
+  --container-page: 120rem; /* 1920px – grids and full layouts */
+
+  --aspect-product: 4 / 5;
+  --aspect-portrait: 3 / 4;
+  --aspect-landscape: 16 / 9;
+  --aspect-square: 1 / 1;
+
+  /* ---- Motion -------------------------------------------------------- */
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Fluid/responsive values that depend on runtime CSS variables. */
+@theme inline {
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+
+  --spacing-gutter: var(--gutter); /* px-gutter: page side padding */
+  --spacing-section: var(--section-space); /* py-section: between page bands */
+  --spacing-header: var(--header-height); /* top-header / h-header */
+}
+
+:root {
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem); /* 16px → 40px */
+  --section-space: clamp(3rem, 2rem + 5vw, 7.5rem); /* 48px → 120px */
+  --header-height: 3.5rem; /* 56px */
+}
+
+@media (width >= 64rem) {
+  :root {
+    --header-height: 4.5rem; /* 72px */
+  }
+}

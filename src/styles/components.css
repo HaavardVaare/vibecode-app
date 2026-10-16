@@ -1,0 +1,197 @@
+/*
+ * Component classes: compose with utilities, e.g.
+ *   <button class="btn btn-primary w-full md:w-auto">
+ *   <a class="link">
+ *   <p class="eyebrow">
+ */
+
+@layer components {
+  /* ---- Typography roles --------------------------------------------- */
+  .display {
+    font-family: var(--font-serif);
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    letter-spacing: var(--text-display--letter-spacing);
+    font-weight: 300;
+  }
+
+  .heading-1 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
+    letter-spacing: var(--text-h1--letter-spacing);
+  }
+
+  .heading-2 {
+    font-family: var(--font-serif);
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    letter-spacing: var(--text-h2--letter-spacing);
+  }
+
+  .heading-3 {
+    font-family: var(--font-sans);
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+  }
+
+  /* Small uppercase label: section kickers, nav items, filters. */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    line-height: var(--text-micro--line-height);
+    letter-spacing: var(--tracking-label);
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .meta {
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--text-caption--letter-spacing);
+    color: var(--color-muted);
+  }
+
+  /* ---- Buttons ------------------------------------------------------
+   * Rectangular, uppercase, tracked. One primary per view.
+   */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem; /* 48px touch target */
+    padding-inline: 2rem;
+    border: 1px solid transparent;
+    border-radius: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    line-height: 1;
+    letter-spacing: var(--tracking-label);
+    font-weight: 500;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color 200ms var(--ease-luxe),
+      color 200ms var(--ease-luxe),
+      border-color 200ms var(--ease-luxe);
+
+    &:disabled,
+    &[aria-disabled="true"] {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  .btn-primary {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+
+    &:hover {
+      background-color: var(--color-ink-soft);
+    }
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+
+    &:hover {
+      background-color: var(--color-ink);
+      color: var(--color-paper);
+    }
+  }
+
+  /* For use on top of photography. */
+  .btn-inverse {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+
+    &:hover {
+      background-color: transparent;
+      color: var(--color-paper);
+      border-color: var(--color-paper);
+    }
+  }
+
+  .btn-sm {
+    min-height: 2.5rem;
+    padding-inline: 1.25rem;
+  }
+
+  /* Square icon-only button (search, bag, wishlist, close). */
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: inherit;
+    cursor: pointer;
+    transition: opacity 200ms var(--ease-luxe);
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
+  /* ---- Links -------------------------------------------------------- */
+
+  /* Inline/body link: always underlined, underline fades on hover. */
+  .link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: currentColor;
+    transition: text-decoration-color 200ms var(--ease-luxe);
+
+    &:hover {
+      text-decoration-color: transparent;
+    }
+  }
+
+  /* Nav/quiet link: no underline until hover or current page. */
+  .link-quiet {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35em;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 200ms var(--ease-luxe);
+
+    &:hover,
+    &[aria-current="page"] {
+      text-decoration-color: currentColor;
+    }
+  }
+
+  /* ---- Form fields -------------------------------------------------- */
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    padding-inline: 1rem;
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+    color: var(--color-ink);
+    transition: border-color 200ms var(--ease-luxe);
+
+    &::placeholder {
+      color: var(--color-subtle);
+    }
+
+    &:hover,
+    &:focus {
+      border-color: var(--color-line-strong);
+      outline: none;
+    }
+
+    &[aria-invalid="true"] {
+      border-color: var(--color-sale);
+    }
+  }
+}
