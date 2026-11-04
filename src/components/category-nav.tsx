@@ -6,7 +6,7 @@ export function CategoryNav({
   activeSlug,
 }: {
   categories: Category[];
-  activeSlug: string;
+  activeSlug?: string;
 }) {
   return (
     <nav aria-label="Categories">

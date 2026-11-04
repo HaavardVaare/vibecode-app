@@ -95,6 +95,31 @@ export const getGallery = (p: Product) => {
   ];
 };
 
+const toWords = (text: string) =>
+  text
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean);
+
+/** Products where every search term starts a word; name and category hits first. */
+export const filterProducts = (products: Product[], query: string) => {
+  const terms = toWords(query);
+  if (terms.length === 0) return query.trim() ? [] : products;
+
+  const matches = (words: string[]) =>
+    terms.every((term) => words.some((word) => word.startsWith(term)));
+
+  const titleHits: Product[] = [];
+  const textHits: Product[] = [];
+  for (const p of products) {
+    const title = toWords(`${p.name} ${p.category}`);
+    const text = toWords(`${p.description} ${p.details.join(" ")}`);
+    if (matches(title)) titleHits.push(p);
+    else if (matches([...title, ...text])) textHits.push(p);
+  }
+  return [...titleHits, ...textHits];
+};
+
 export type StockState = "in-stock" | "low-stock" | "out-of-stock";
 
 export const getStockState = (stock: number): StockState =>
