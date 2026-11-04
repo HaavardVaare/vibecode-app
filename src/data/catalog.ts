@@ -27,7 +27,7 @@ export type Product = {
 };
 
 export const navLinks = [
-  { label: "New In", href: "/#new-in" },
+  { label: "New In", href: "/new-arrivals" },
   { label: "Women", href: "/#collections" },
   { label: "Men", href: "/#collections" },
   { label: "Accessories", href: "/#collections" },

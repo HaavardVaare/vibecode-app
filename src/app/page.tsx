@@ -18,6 +18,7 @@ export default async function Home() {
           kicker="Just arrived"
           title="New in"
           products={products.slice(0, 6)}
+          href="/new-arrivals"
         />
         <EditorialSplit id="journal" {...editorial} />
         <ProductSection
