@@ -17,6 +17,44 @@ export type SeedProduct = {
 
 export const seedProducts: SeedProduct[] = [
   {
+    slug: "heritage-leather-backpack",
+    name: "Heritage Leather Backpack",
+    category: "Bags",
+    price: 1180,
+    photo: "1622560480605-d83c853bc5c3",
+    alt: "Cognac leather backpack with a front pocket against a pale background",
+    badge: "New",
+    description:
+      "A rounded backpack in full-grain leather that deepens in colour with wear. Roomy enough for a laptop and a change of layers, refined enough for the office.",
+    details: [
+      "Full-grain vegetable-tanned leather",
+      "Zipped main compartment and front pocket",
+      "Two gathered side pockets, top carry handle",
+      "Made in Italy",
+    ],
+    stock: 12,
+    sku: "MN-BG-0118",
+  },
+  {
+    slug: "houndstooth-wool-scarf",
+    name: "Houndstooth Wool Scarf",
+    category: "Knitwear",
+    price: 340,
+    photo: "1544878116-66a8cc5d77fb",
+    alt: "Person in an olive jacket wearing a black and white houndstooth scarf",
+    badge: "New",
+    description:
+      "A generous scarf in brushed wool with a classic black and white houndstooth check. Soft against the skin and warm enough for the coldest mornings.",
+    details: [
+      "100% brushed lambswool",
+      "Woven houndstooth check",
+      "200 x 40cm",
+      "Made in Portugal",
+    ],
+    stock: 24,
+    sku: "MN-KN-0071",
+  },
+  {
     slug: "leather-biker-jacket",
     name: "Leather Biker Jacket",
     category: "Outerwear",

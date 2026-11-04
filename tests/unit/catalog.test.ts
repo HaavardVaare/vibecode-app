@@ -1,11 +1,74 @@
 import { describe, expect, it } from "vitest";
 import {
+  filterProducts,
   formatPrice,
   getGallery,
   getStockState,
   img,
   type Product,
 } from "@/data/catalog";
+
+describe("filterProducts", () => {
+  const product = (
+    slug: string,
+    name: string,
+    category: string,
+    description = "",
+    details: string[] = [],
+  ): Product => ({
+    slug,
+    name,
+    category,
+    categorySlug: category.toLowerCase(),
+    price: 100,
+    image: img("abc123", 900),
+    alt: name,
+    description,
+    details,
+    stock: 1,
+    sku: slug,
+  });
+
+  const suit = product("suit", "Navy Suit", "Tailoring", "Fine wool cloth.");
+  const scarf = product("scarf", "Wool Scarf", "Knitwear");
+  const watch = product("watch", "Steel Watch", "Watches", "", [
+    "Made in Switzerland",
+  ]);
+  const tee = product("tee", "Cotton Tee", "Essentials");
+  const all = [suit, scarf, watch, tee];
+
+  const slugs = (query: string) =>
+    filterProducts(all, query).map((p) => p.slug);
+
+  it("returns everything for an empty query", () => {
+    expect(filterProducts(all, "")).toEqual(all);
+    expect(filterProducts(all, "   ")).toEqual(all);
+  });
+
+  it("ignores case", () => {
+    expect(slugs("KNITWEAR")).toEqual(["scarf"]);
+  });
+
+  it("matches the start of a word, not the middle", () => {
+    expect(slugs("tee")).toEqual(["tee"]);
+    expect(slugs("wat")).toEqual(["watch"]);
+  });
+
+  it("requires every term, across fields", () => {
+    expect(slugs("wool scarf")).toEqual(["scarf"]);
+    expect(slugs("watch switzerland")).toEqual(["watch"]);
+    expect(slugs("wool watch")).toEqual([]);
+  });
+
+  it("ranks name and category hits above description hits", () => {
+    expect(slugs("wool")).toEqual(["scarf", "suit"]);
+  });
+
+  it("returns nothing when there is no match or only punctuation", () => {
+    expect(slugs("xyzzy")).toEqual([]);
+    expect(slugs("!!!")).toEqual([]);
+  });
+});
 
 describe("formatPrice", () => {
   it("formats whole euros with a currency symbol and thousands separator", () => {

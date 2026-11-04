@@ -29,9 +29,9 @@ export function SiteHeader() {
         </Link>
 
         <div className="-mr-3 flex items-center justify-end">
-          <button className="btn-icon" aria-label="Search">
+          <Link href="/search" className="btn-icon" aria-label="Search">
             <SearchIcon />
-          </button>
+          </Link>
           <button
             className="btn-icon hidden sm:inline-flex"
             aria-label="Wishlist"
