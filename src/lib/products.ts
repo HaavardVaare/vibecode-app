@@ -1,13 +1,13 @@
-import { count, desc, eq } from "drizzle-orm";
+import { asc, count, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
-import type { Product } from "@/data/catalog";
+import type { Category, Product } from "@/data/catalog";
 import { db } from "@/db";
-import { products } from "@/db/schema";
+import { categories, products } from "@/db/schema";
 
 const withRelations = { category: true, stock: true } as const;
 
 type ProductRow = typeof products.$inferSelect & {
-  category: { name: string };
+  category: { name: string; slug: string };
   stock: { quantity: number } | null;
 };
 
@@ -15,6 +15,7 @@ const toProduct = (row: ProductRow): Product => ({
   slug: row.slug,
   name: row.name,
   category: row.category.name,
+  categorySlug: row.category.slug,
   price: row.priceCents / 100,
   image: row.image,
   alt: row.alt,
@@ -61,6 +62,57 @@ export async function getProductCount(): Promise<number> {
 
   const [row] = await db.select({ total: count() }).from(products);
   return row.total;
+}
+
+/** Categories with at least one product, by name, pictured by their newest product. */
+export async function getCategories(): Promise<Category[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("products");
+
+  const rows = await db.query.categories.findMany({
+    orderBy: [asc(categories.name)],
+    with: {
+      products: {
+        columns: { image: true, alt: true },
+        orderBy: [desc(products.createdAt)],
+      },
+    },
+  });
+  return rows
+    .filter((c) => c.products.length > 0)
+    .map((c) => ({
+      slug: c.slug,
+      name: c.name,
+      productCount: c.products.length,
+      image: c.products[0].image,
+      alt: c.products[0].alt,
+    }));
+}
+
+/** One category and all its products, newest first. */
+export async function getCategoryWithProducts(
+  slug: string,
+): Promise<{ name: string; slug: string; products: Product[] } | undefined> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("products");
+
+  const category = await db.query.categories.findFirst({
+    where: eq(categories.slug, slug),
+  });
+  if (!category) return undefined;
+
+  const rows = await db.query.products.findMany({
+    where: eq(products.categoryId, category.id),
+    with: withRelations,
+    orderBy: [desc(products.createdAt)],
+  });
+  return {
+    name: category.name,
+    slug: category.slug,
+    products: rows.map(toProduct),
+  };
 }
 
 export async function getProductBySlug(

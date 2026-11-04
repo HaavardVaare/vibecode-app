@@ -52,6 +52,7 @@ describe("getGallery", () => {
     slug: "test-jacket",
     name: "Test Jacket",
     category: "Outerwear",
+    categorySlug: "outerwear",
     price: 100,
     image: img("abc123", 900),
     alt: "A test jacket",

@@ -11,10 +11,19 @@ export type Collection = {
   alt: string;
 };
 
+export type Category = {
+  slug: string;
+  name: string;
+  productCount: number;
+  image: string;
+  alt: string;
+};
+
 export type Product = {
   slug: string;
   name: string;
   category: string;
+  categorySlug: string;
   price: number;
   image: string;
   alt: string;
@@ -28,6 +37,7 @@ export type Product = {
 
 export const navLinks = [
   { label: "New In", href: "/new-arrivals" },
+  { label: "Categories", href: "/categories" },
   { label: "Women", href: "/#collections" },
   { label: "Men", href: "/#collections" },
   { label: "Accessories", href: "/#collections" },
