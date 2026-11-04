@@ -8,12 +8,14 @@ export function ProductSection({
   kicker,
   products,
   rail = false,
+  href = "#",
 }: {
   id?: string;
   title: string;
   kicker: string;
   products: Product[];
   rail?: boolean;
+  href?: string;
 }) {
   return (
     <section id={id} className="section scroll-mt-header">
@@ -23,7 +25,7 @@ export function ProductSection({
             <p className="eyebrow mb-3 text-muted">{kicker}</p>
             <h2 className="heading-1">{title}</h2>
           </div>
-          <Link href="#" className="eyebrow link shrink-0">
+          <Link href={href} className="eyebrow link shrink-0">
             Shop all
           </Link>
         </header>

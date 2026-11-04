@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { count, desc, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import type { Product } from "@/data/catalog";
 import { db } from "@/db";
@@ -37,6 +37,30 @@ export async function getProducts(): Promise<Product[]> {
     orderBy: [desc(products.createdAt)],
   });
   return rows.map(toProduct);
+}
+
+/** The most recently added products, newest first. */
+export async function getNewArrivals(limit = 12): Promise<Product[]> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("products");
+
+  const rows = await db.query.products.findMany({
+    with: withRelations,
+    orderBy: [desc(products.createdAt)],
+    limit,
+  });
+  return rows.map(toProduct);
+}
+
+/** Total number of products in the catalog. */
+export async function getProductCount(): Promise<number> {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("products");
+
+  const [row] = await db.select({ total: count() }).from(products);
+  return row.total;
 }
 
 export async function getProductBySlug(

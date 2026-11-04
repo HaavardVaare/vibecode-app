@@ -2,7 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatPrice, getStockState, type Product } from "@/data/catalog";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  sizes = "(min-width: 768px) 33vw, 80vw",
+}: {
+  product: Product;
+  sizes?: string;
+}) {
   const soldOut = getStockState(product.stock) === "out-of-stock";
   return (
     <article className="group">
@@ -12,7 +18,7 @@ export function ProductCard({ product }: { product: Product }) {
             src={product.image}
             alt={product.alt}
             fill
-            sizes="(min-width: 768px) 33vw, 80vw"
+            sizes={sizes}
             className={`zoom-on-hover ${soldOut ? "opacity-60" : ""}`}
           />
           {(soldOut || product.badge) && (
